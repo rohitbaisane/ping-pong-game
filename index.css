@@ -1,0 +1,59 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    background-color: aliceblue;
+}
+
+#left-bar {
+    height: 60px;
+    width: 10px;
+    background-color: black;
+    position: absolute;
+    top: 140px;
+}
+
+#right-bar {
+    height: 60px;
+    width: 10px;
+    background-color: black;
+    left: 790px;
+    top: 140px;
+    position: absolute
+}
+
+#ball {
+    position: absolute;
+    background-color: white;
+    top: 200px;
+    left: 400px;
+    border-radius: 10px;
+}
+
+#ping-pong-board {
+    display: flex;
+    border: 0px solid black;
+    width: 800px;
+    height: 400px;
+    margin: 100px auto 0px auto;
+    position: relative;
+    background-color: antiquewhite;
+}
+
+#play-button {
+    color: black;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: white;
+    position: absolute;
+    width: 200px;
+    height: 50px;
+    top: 40%;
+    left: 35%;
+}
