@@ -1,15 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-
-    const width = 800;
-    const height = 400;
     const button = document.getElementById('play-button');
     const ball = document.getElementById('ball');
     const leftBar = document.getElementById('left-bar');
     const rightBar = document.getElementById('right-bar');
-    let currentBarPos = 140;
+    const playerScoreEle = document.getElementById('score-1');
+    const compuerScoreEle = document.getElementById('score-2');
+    let playerScore = 0, computerScore = 0, leftBarPos = 140, rightBarPos = 140;
     let intervalId;
-    let rightBarPos = 140;
     let ballPosition = {
         r: 200,
         c: 400,
@@ -17,6 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let ballDirection = 'left';
     let dr = 10;
     let dc = -10;
+    const boardWidth = 800, boardHeight = 400, barWidth = 10, barHeight = 60;
+
     document.addEventListener('keydown', moveBar);
     button.addEventListener('click', startGame);
 
@@ -28,12 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function isCollisionWithBar() {
-        if (ballPosition.r >= currentBarPos && ballPosition.r <= currentBarPos + 60 && ballPosition.c < 10) {
+        if (ballPosition.r >= leftBarPos && ballPosition.r <= leftBarPos + barHeight && ballPosition.c <= barWidth) {
             return true;
         }
-        if (ballPosition.r >= rightBarPos && ballPosition.r <= rightBarPos + 60 && ballPosition.c > 790) {
+        if (ballPosition.r >= rightBarPos && ballPosition.r <= rightBarPos + barHeight && ballPosition.c >= boardWidth - barWidth) {
             return true;
         }
+        return false;
     }
     function moveBall() {
         if (isCollisionWithWall()) {
@@ -41,8 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         else if (isCollisionWithBar()) {
-            if (ballPosition.r <= leftBar + 30 || ballPosition.r <= rightBar + 30) dr = -10;
-            else dr = 10;
+            if (ballPosition.r <= leftBar + barHeight / 2 || ballPosition.r <= rightBar + barHeight / 2) {
+                dr = -10;
+            }
+            else {
+                dr = 10;
+            };
+            if (ballPosition.c >= boardWidth - barWidth) compuerScoreEle.textContent = `${++computerScore}`;
+            if (ballPosition.c <= barWidth) playerScoreEle.textContent = `${++playerScore}`;
             ballDirection = ballDirection === 'right' ? 'left' : 'right';
             dc = -dc;
         }
@@ -53,22 +59,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function startGame() {
+        isGameStarted = true;
         button.style.display = 'none';
         drawBall();
-        let speed = 40;
         intervalId = setInterval(() => {
-            if (!isCollisionWithBar() && (ballPosition.c < 0 || ballPosition.c > 790)) {
+            if (!isCollisionWithBar() && (ballPosition.c <= barWidth || ballPosition.c >= boardWidth  - barWidth)) {
                 clearInterval(intervalId);
                 ballPosition.r = 200;
                 ballPosition.c = 400;
+                playerScore = 0;
+                computerScore = 0;
+                playerScoreEle.textContent = `${playerScore}`;
+                compuerScoreEle.textContent = `${computerScore}`;
                 startGame();
             }
-            moveBall(), computerMovement()
+            moveBall(), computerMovement();
         }, 40);
-    }
-
-    function ballMissedByBar() {
-
     }
 
     function computerMovement() {
@@ -93,12 +99,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function moveBar(e) {
         const { code } = e;
-        if (code === 'ArrowUp' && currentBarPos > 0) {
-            currentBarPos -= 10;
+        if (code === 'ArrowUp' && leftBarPos > 0) {
+            leftBarPos -= 10;
         }
-        else if (code === 'ArrowDown' && currentBarPos < height - 60) {
-            currentBarPos += 10;
+        else if (code === 'ArrowDown' && leftBarPos < boardHeight - barHeight) {
+            leftBarPos += 10;
         }
-        leftBar.style.top = `${currentBarPos}px`;
+        leftBar.style.top = `${leftBarPos}px`;
     }
 });

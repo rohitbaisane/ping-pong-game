@@ -37,7 +37,7 @@ body {
 }
 
 #ping-pong-board {
-    display: flex;
+    /* display: flex; */
     border: 0px solid black;
     width: 800px;
     height: 400px;
@@ -56,4 +56,21 @@ body {
     height: 50px;
     top: 40%;
     left: 35%;
+}
+
+#score-card{
+    width: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+}
+
+#score-1 {
+    margin: 10px 300px 0px 0px;
+    font-size: 50px;
+}
+
+#score-2 {
+    margin: 10px 0px 0px 300px;
+    font-size: 50px;
 }
